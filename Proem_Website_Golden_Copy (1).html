@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROEM — Where Brands Ignite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=Syne+Mono&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN SYSTEM
+═══════════════════════════════════════════ */
+:root {
+  /* Brand Palette */
+  --ember:       #E8601A;
+  --ember-light: #F5832B;
+  --ember-dark:  #C44912;
+  --gold:        #D4931A;
+  --gold-light:  #E8B040;
+
+  /* Neutrals */
+  --void:   #080706;
+  --ink:    #111009;
+  --carbon: #1C1A17;
+  --slate:  #2E2B26;
+  --iron:   #46423C;
+  --smoke:  #6B6660;
+  --fog:    #9C9690;
+  --mist:   #C8C4BC;
+  --bone:   #EDE9E3;
+  --chalk:  #F8F5F0;
+  --white:  #FFFFFF;
+
+  /* Semantic */
+  --fg-primary:   var(--chalk);
+  --fg-secondary: var(--mist);
+  --fg-muted:     var(--smoke);
+  --bg-base:      var(--void);
+  --bg-surface:   var(--ink);
+  --bg-raised:    var(--carbon);
+  --border-dim:   rgba(255,255,255,0.06);
+  --border-mid:   rgba(255,255,255,0.10);
+  --border-bright:rgba(232,96,26,0.25);
+
+  /* Motion */
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:   cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-circ: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Typography Scale */
+  --text-xs:   11px;
+  --text-sm:   13px;
+  --text-base: 16px;
+  --text-lg:   18px;
+  --text-xl:   22px;
+  --text-2xl:  28px;
+  --text-3xl:  38px;
+  --text-4xl:  52px;
+  --text-5xl:  72px;
+  --text-6xl:  96px;
+  --text-hero: clamp(64px, 9vw, 120px);
+
+  /* Spacing */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-28: 112px;
+  --sp-36: 144px;
+}
+
+/* ── RESET & BASE ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--void);
+  color: var(--chalk);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+}
+img, svg { display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; }
+
+/* ── CUSTOM CURSOR ── */
+#cursor {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--ember);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: normal;
+}
+#cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(232,96,26,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: all 0.12s var(--ease-circ);
+}
+body:hover #cursor { opacity: 1; }
+a:hover ~ #cursor, button:hover ~ #cursor { width: 14px; height: 14px; }
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px;
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+#nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-10);
+  height: 76px;
+  transition: background 0.5s, border-color 0.5s;
+  border-bottom: 1px solid transparent;
+}
+#nav.stuck {
+  background: rgba(8,7,6,0.9);
+  backdrop-filter: blur(24px) saturate(1.4);
+  border-bottom-color: var(--border-dim);
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  cursor: none;
+}
+.nav-logo-icon { flex-shrink: 0; }
+.nav-wordmark {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 0.14em;
+  color: var(--white);
+}
+
+/* Nav links */
+.nav-center {
+  display: flex;
+  gap: var(--sp-10);
+  list-style: none;
+}
+.nav-center a {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--smoke);
+  transition: color 0.2s;
+  cursor: none;
+}
+.nav-center a:hover { color: var(--chalk); }
+
+.nav-right { display: flex; align-items: center; gap: var(--sp-6); }
+.nav-contact-link {
+  font-size: var(--text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mist);
+  transition: color 0.2s;
+  cursor: none;
+}
+.nav-contact-link:hover { color: var(--ember-light); }
+
+.btn-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  background: var(--ember);
+  color: var(--white);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border: none;
+  cursor: none;
+  transition: background 0.25s, transform 0.25s var(--ease-out);
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.btn-nav:hover { background: var(--ember-light); transform: translateY(-1px); }
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: none;
+  padding: 4px;
+  background: none;
+  border: none;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--chalk);
+  transition: all 0.3s;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px var(--sp-10) 100px;
+  overflow: hidden;
+}
+
+/* Ambient glow */
+.hero-glow {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,96,26,0.18) 0%, rgba(212,147,26,0.06) 40%, transparent 70%);
+  top: -200px;
+  right: -100px;
+  pointer-events: none;
+  animation: glowPulse 6s ease-in-out infinite;
+}
+.hero-glow-2 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,147,26,0.08) 0%, transparent 60%);
+  bottom: 0;
+  left: 10%;
+  pointer-events: none;
+  animation: glowPulse 8s 2s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+/* Grid lines */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 100px 100px;
+}
+.hero-grid-vline {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(232,96,26,0.2) 40%, rgba(232,96,26,0.2) 60%, transparent 100%);
+}
+.hero-grid-vline:nth-child(1) { left: 33.33%; }
+.hero-grid-vline:nth-child(2) { left: 66.66%; }
+
+/* Content */
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: 'Syne Mono', monospace;
+  font-size: var(--text-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ember-light);
+  margin-bottom: var(--sp-8);
+  opacity: 0;
+  animation: heroFadeUp 1s 0.3s var(--ease-out) forwards;
+}
+.hero-tag-dot {
+  width: 6px; height: 6px;
+  background: var(--ember);
+  border-radius: 50%;
+  animation: dotBlink 2s ease-in-out infinite;
+}
+@keyframes dotBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.hero-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: var(--text-hero);
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  color: var(--white);
+  margin-bottom: var(--sp-10);
+  max-width: 900px;
+  opacity: 0;
+  animation: heroFadeUp 1s 0.5s var(--ease-out) forwards;
+}
+.hero-headline strong {
+  font-weight: 600;
+  font-style: italic;
+  background: linear-gradient(120deg, var(--gold-light), var(--ember-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-16);
+  max-width: 860px;
+  margin-bottom: var(--sp-12);
+  opacity: 0;
+  animation: heroFadeUp 1s 0.7s var(--ease-out) forwards;
+}
+.hero-sub {
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--fog);
+  border-left: 1px solid var(--border-bright);
+  padding-left: var(--sp-6);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-8);
+  opacity: 0;
+  animation: heroFadeUp 1s 0.9s var(--ease-out) forwards;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  background: var(--ember);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  border: none;
+  cursor: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s var(--ease-out);
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--ember-dark), var(--ember), var(--gold));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 60px rgba(232,96,26,0.35); }
+.btn-primary:hover::before { opacity: 1; }
+.btn-primary span, .btn-primary svg { position: relative; z-index: 1; }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  background: transparent;
+  color: var(--mist);
+  font-family: 'Syne', sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 15px 32px;
+  border: 1px solid var(--border-mid);
+  cursor: none;
+  transition: all 0.3s;
+}
+.btn-secondary:hover { border-color: rgba(232,96,26,0.4); color: var(--chalk); }
+
+/* Hero bottom stats */
+.hero-stats {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border-dim);
+  opacity: 0;
+  animation: heroFadeUp 1s 1.2s var(--ease-out) forwards;
+}
+.hero-stat-item {
+  padding: var(--sp-8) var(--sp-10);
+  border-right: 1px solid var(--border-dim);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.hero-stat-item:last-child { border-right: none; }
+.hero-stat-item:hover { background: rgba(255,255,255,0.02); }
+.hero-stat-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--ember);
+  transition: width 0.5s var(--ease-out);
+}
+.hero-stat-item:hover::after { width: 100%; }
+.h-stat-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 44px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.h-stat-n sup { font-size: 22px; color: var(--ember); vertical-align: super; }
+.h-stat-l {
+  font-size: var(--text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--iron);
+}
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero right logo display */
+.hero-logo-display {
+  position: absolute;
+  right: 6vw;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  animation: heroFadeLeft 1.2s 0.6s var(--ease-out) forwards;
+}
+@keyframes heroFadeLeft {
+  from { opacity: 0; transform: translateY(-50%) translateX(40px); }
+  to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+}
+
+/* ═══════════════════════════════════════════
+   SECTIONS — SHARED
+═══════════════════════════════════════════ */
+.section { padding: var(--sp-36) var(--sp-10); position: relative; }
+.section-alt { background: var(--ink); }
+.section-alt2 { background: var(--carbon); }
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: 'Syne Mono', monospace;
+  font-size: var(--text-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ember-light);
+  margin-bottom: var(--sp-6);
+}
+.label::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: currentColor;
+}
+
+.display-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(42px, 5.5vw, 76px);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--white);
+}
+.display-title em {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ember-light);
+}
+.display-title strong {
+  font-weight: 600;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+.reveal-d5 { transition-delay: 0.5s; }
+
+/* ═══════════════════════════════════════════
+   LOGO SHOWCASE
+═══════════════════════════════════════════ */
+#logos {
+  padding: var(--sp-36) var(--sp-10);
+  background: var(--ink);
+  overflow: hidden;
+}
+.logos-intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-20);
+  margin-bottom: var(--sp-16);
+  align-items: end;
+}
+.logos-intro-text {
+  font-size: var(--text-base);
+  color: var(--fog);
+  line-height: 1.9;
+  margin-top: var(--sp-6);
+}
+.logo-concepts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-dim);
+  margin-bottom: var(--sp-16);
+}
+.logo-concept-panel {
+  background: var(--carbon);
+  padding: var(--sp-12) var(--sp-10);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-8);
+  transition: background 0.3s;
+  position: relative;
+  overflow: hidden;
+  min-height: 360px;
+}
+.logo-concept-panel.featured {
+  background: var(--slate);
+}
+.logo-concept-panel:hover { background: var(--slate); }
+.logo-concept-num {
+  font-family: 'Syne Mono', monospace;
+  font-size: var(--text-xs);
+  letter-spacing: 0.2em;
+  color: var(--iron);
+}
+.logo-concept-display {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.logo-concept-name {
+  font-family: 'Syne', sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--chalk);
+  margin-bottom: 4px;
+}
+.logo-concept-desc {
+  font-size: 12px;
+  color: var(--smoke);
+  line-height: 1.6;
+}
+.featured-badge {
+  position: absolute;
+  top: var(--sp-5);
+  right: var(--sp-5);
+  background: var(--ember);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+}
+
+/* Final logo display */
+.final-logo-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-dim);
+}
+.final-logo-panel {
+  padding: var(--sp-12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-8);
+  min-height: 260px;
+}
+.final-logo-panel.dark { background: var(--carbon); }
+.final-logo-panel.light { background: var(--bone); }
+.final-logo-panel.dark .panel-label { color: var(--iron); }
+.final-logo-panel.light .panel-label { color: var(--fog); }
+.panel-label {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════
+   BRAND STRATEGY SECTION
+═══════════════════════════════════════════ */
+#strategy {
+  padding: var(--sp-36) var(--sp-10);
+  background: var(--void);
+}
+.strategy-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--sp-20);
+  margin-top: var(--sp-16);
+}
+.strategy-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-dim);
+  align-self: start;
+}
+.strategy-card {
+  background: var(--ink);
+  padding: var(--sp-8) var(--sp-8);
+  transition: background 0.3s;
+}
+.strategy-card:hover { background: var(--carbon); }
+.sc-label {
+  font-size: var(--text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--iron);
+  margin-bottom: var(--sp-3);
+  font-family: 'Syne Mono', monospace;
+}
+.sc-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.2;
+}
+.sc-value.accent { color: var(--ember-light); }
+.strategy-right { }
+.strategy-big-claim {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: var(--sp-8);
+  letter-spacing: -0.02em;
+}
+.strategy-big-claim em { font-style: italic; font-weight: 600; color: var(--ember-light); }
+.strategy-body {
+  font-size: var(--text-lg);
+  color: var(--fog);
+  line-height: 1.9;
+  margin-bottom: var(--sp-8);
+}
+.strategy-pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-dim);
+  margin-top: var(--sp-10);
+}
+.pillar {
+  background: var(--carbon);
+  padding: var(--sp-8);
+  transition: background 0.3s;
+  cursor: default;
+}
+.pillar:hover { background: var(--slate); }
+.pillar-n {
+  font-family: 'Syne Mono', monospace;
+  font-size: var(--text-xs);
+  color: var(--ember);
+  letter-spacing: 0.14em;
+  margin-bottom: var(--sp-3);
+}
+.pillar-t {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: var(--sp-2);
+}
+.pillar-d {
+  font-size: 13px;
+  color: var(--smoke);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════
+   PROBLEM → SOLUTION
+═══════════════════════════════════════════ */
+#problem {
+  padding: var(--sp-36) var(--sp-10);
+  background: var(--ink);
+}
+.ps-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-dim);
+  margin-top: var(--sp-16);
+}
+.ps-panel {
+  padding: var(--sp-12);
+  background: var(--carbon);
+  transition: background 0.3s;
+}
+.ps-panel.solution { background: rgba(232,96,26,0.06); border: 1px solid rgba(232,96,26,0.12); }
+.ps-panel-tag {
+  font-family: 'Syne Mono', monospace;
+  font-size: var(--text-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--iron);
+  margin-bottom: var(--sp-8);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.ps-panel.solution .ps-panel-tag { color: var(--ember-light); }
+.ps-items { display: flex; flex-direction: column; gap: var(--sp-6); }
+.ps-item {
+  display: flex;
+  gap: var(--sp-4);
+  align-items: flex-start;
+  padding-bottom: var(--sp-6);
+  border-bottom: 1px solid var(--border-dim);
+}
+.ps-item:last-child { border-bottom: none; padding-bottom: 0; }
+.ps-item-icon {
+  width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px;
+}
+.ps-item-text {
+  font-size: var(--text-base);
+  color: var(--mist);
+  line-height: 1.7;
+}
+.ps-item-text strong { color: var(--white); font-weight: 500; }
+
+/* ═══════════════════════════════════════════
+   SERVICES
+═══════════════════════════════════════════ */
+#services {
+  padding: var(--sp-36) var(--sp-10);
+  background: var(--void);
+}
+.services-header-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-20);
+  align-items: end;
+  margin-bottom: var(--sp-16);
+}
+.services-header-right {
+  font-size: var(--text-base);
+  color: var(--fog);
+  line-height: 1.9;
+  padding-bottom: 4px;
+}
+.services-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-dim);
+}
+.service-item {
+  background: var(--void);
+  padding: var(--sp-10) var(--sp-10) var(--sp-12);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.35s;
+}
+.service-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0;
+  background: linear-gradient(180deg, var(--ember), var(--ember-dark));
+  transition: width 0.35s var(--ease-out);
+}
+.service-item:hover { background: var(--carbon); }
+.service-item:hover::before { width: 2px; }
+.si-num {
+  font-family: 'Syne Mono', monospace;
+  font-size: var(--text-xs);
+  color: var(--iron);
+  letter-spacing: 0.16em;
+  margin-bottom: var(--sp-10);
+}
+.si-icon {
+  width: 40px; height: 40px;
+  margin-bottom: var(--sp-6);
+  color: var(--ember-light);
+}
+.si-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: var(--sp-4);
+  line-height: 1.1;
+}
+.si-desc {
+  font-size: 13px;
+  color: var(--smoke);
+  line-height: 1.8;
+  margin-bottom: var(--sp-8);
+}
+.si-link {
+  font-size: var(--text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ember);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  transition: gap 0.2s;
+}
+.service-item:hover .si-link { gap: var(--sp-4); }
+
+/* ═══════════════════════════════════════════
+   PROCESS
+═══════════════════════════════════════════ */
+#process {
+  padding: var(--sp-36) var(--sp-10);
+  background: var(--ink);
+}
+.process-grid {
+  margin-top: var(--sp-16);
+  position: relative;
+}
+.process-track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+}
+.process-track::before {
+  content: '';
+  position: absolute;
+  top: 36px;
+  left: calc(12.5% + 20px);
+  right: calc(12.5% + 20px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--ember), var(--gold), var(--ember));
+  opacity: 0.3;
+}
+.process-step {
+  padding: 0 var(--sp-8) var(--sp-8);
+  position: relative;
+}
+.ps-circle {
+  width: 72px; height: 72px;
+  border: 1px solid rgba(232,96,26,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-8);
+  position: relative;
+  font-family: 'Syne Mono', monospace;
+  font-size: var(--text-sm);
+  color: var(--ember);
+  background: var(--ink);
+  transition: background 0.3s, border-color 0.3s;
+}
+.process-step:hover .ps-circle {
+  background: rgba(232,96,26,0.08);
+  border-color: var(--ember);
+}
+.ps-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: var(--sp-3);
+}
+.ps-desc {
+  font-size: 13px;
+  color: var(--smoke);
+  line-height: 1.8;
+}
+
+/* ═══════════════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════════════ */
+#testimonials {
+  padding: var(--sp-36) var(--sp-10);
+  background: var(--void);
+}
+.testi-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 0.8fr;
+  grid-template-rows: auto auto;
+  gap: 1px;
+  background: var(--border-dim);
+  margin-top: var(--sp-16);
+}
+.testi {
+  background: var(--void);
+  padding: var(--sp-12);
+  transition: background 0.3s;
+  position: relative;
+}
+.testi:hover { background: var(--carbon); }
+.testi.hero-testi {
+  grid-row: span 2;
+  background: var(--carbon);
+  border-left: 1px solid var(--border-bright);
+}
+.testi-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px;
+  line-height: 0.5;
+  color: var(--ember);
+  opacity: 0.25;
+  margin-bottom: var(--sp-8);
+}
+.testi-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: var(--text-xl);
+  font-style: italic;
+  color: var(--chalk);
+  line-height: 1.7;
+  margin-bottom: var(--sp-8);
+}
+.testi:not(.hero-testi) .testi-body { font-size: var(--text-lg); }
+.testi-sig { display: flex; align-items: center; gap: var(--sp-4); }
+.testi-av {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ember-dark), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--white);
+  flex-shrink: 0;
+}
+.testi-name { font-size: var(--text-sm); font-weight: 600; color: var(--white); }
+.testi-role { font-size: 12px; color: var(--smoke); margin-top: 2px; }
+
+/* ═══════════════════════════════════════════
+   RESULTS / NUMBERS
+═══════════════════════════════════════════ */
+#results {
+  padding: var(--sp-28) var(--sp-10);
+  background: var(--ember-dark);
+  position: relative;
+  overflow: hidden;
+}
+#results::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.1);
+  position: relative;
+}
+.result-item {
+  background: var(--ember-dark);
+  padding: var(--sp-10);
+  text-align: center;
+  transition: background 0.3s;
+}
+.result-item:hover { background: rgba(196,73,18,0.8); }
+.result-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(48px, 5vw, 72px);
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.result-n sup { font-size: 0.45em; vertical-align: super; }
+.result-l {
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+}
+
+/* ═══════════════════════════════════════════
+   FINAL CTA
+═══════════════════════════════════════════ */
+#cta-section {
+  padding: var(--sp-36) var(--sp-10);
+  background: var(--void);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,96,26,0.15) 0%, transparent 60%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.cta-inner { position: relative; z-index: 1; }
+.cta-pre {
+  font-family: 'Syne Mono', monospace;
+  font-size: var(--text-xs);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin-bottom: var(--sp-6);
+}
+.cta-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 300;
+  line-height: 0.95;
+  color: var(--white);
+  margin-bottom: var(--sp-8);
+  letter-spacing: -0.025em;
+}
+.cta-headline em { font-style: italic; font-weight: 600; color: var(--ember-light); }
+.cta-sub {
+  font-size: var(--text-lg);
+  color: var(--fog);
+  max-width: 480px;
+  margin: 0 auto var(--sp-12);
+  line-height: 1.8;
+}
+.cta-btns { display: flex; gap: var(--sp-4); justify-content: center; flex-wrap: wrap; }
+
+/* ═══════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════ */
+#contact {
+  padding: var(--sp-36) var(--sp-10);
+  background: var(--ink);
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: var(--sp-20);
+  margin-top: var(--sp-16);
+}
+.contact-details { display: flex; flex-direction: column; gap: var(--sp-8); }
+.cd-item {
+  display: flex;
+  gap: var(--sp-5);
+  padding-bottom: var(--sp-8);
+  border-bottom: 1px solid var(--border-dim);
+}
+.cd-item:last-child { border-bottom: none; }
+.cd-icon {
+  width: 40px; height: 40px;
+  border: 1px solid rgba(232,96,26,0.2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ember); flex-shrink: 0;
+}
+.cd-label {
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--iron); margin-bottom: 4px; font-family: 'Syne Mono', monospace;
+}
+.cd-val { font-size: var(--text-base); color: var(--chalk); line-height: 1.6; }
+
+/* Form */
+.contact-form { }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+.fg { margin-bottom: var(--sp-4); }
+.fl {
+  display: block;
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--iron); margin-bottom: 8px; font-family: 'Syne Mono', monospace;
+}
+.fi, .fta, .fsel {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-mid);
+  color: var(--chalk);
+  padding: 14px 18px;
+  font-family: 'Syne', sans-serif;
+  font-size: var(--text-sm);
+  transition: border-color 0.2s, background 0.2s;
+  appearance: none;
+  outline: none;
+}
+.fi:focus, .fta:focus, .fsel:focus {
+  border-color: rgba(232,96,26,0.5);
+  background: rgba(232,96,26,0.03);
+}
+.fi::placeholder, .fta::placeholder { color: var(--iron); }
+.fta { min-height: 110px; resize: vertical; }
+.fsel {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6' fill='none' stroke='%2346423C' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 18px center; cursor: pointer;
+}
+.btn-submit {
+  width: 100%; margin-top: var(--sp-2);
+  background: var(--ember);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border: none;
+  cursor: none;
+  display: flex; align-items: center; justify-content: center; gap: var(--sp-3);
+  transition: background 0.3s, transform 0.3s var(--ease-out);
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+}
+.btn-submit:hover { background: var(--ember-light); transform: translateY(-2px); }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  background: var(--void);
+  border-top: 1px solid var(--border-dim);
+  padding: var(--sp-16) var(--sp-10) var(--sp-10);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--sp-16);
+  padding-bottom: var(--sp-12);
+  border-bottom: 1px solid var(--border-dim);
+  margin-bottom: var(--sp-8);
+}
+.footer-brand-p {
+  font-size: 13px; color: var(--iron); line-height: 1.8;
+  margin-top: var(--sp-4); max-width: 260px;
+}
+.footer-col-h {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--smoke); margin-bottom: var(--sp-5); font-family: 'Syne Mono', monospace;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 13px; color: var(--iron); transition: color 0.2s; cursor: none; }
+.footer-links a:hover { color: var(--ember-light); }
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.footer-copy { font-size: 12px; color: var(--iron); }
+.footer-socials { display: flex; gap: var(--sp-3); }
+.footer-socials a {
+  width: 34px; height: 34px;
+  border: 1px solid var(--border-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--smoke);
+  transition: all 0.2s; cursor: none;
+}
+.footer-socials a:hover { border-color: rgba(232,96,26,0.3); color: var(--ember); }
+
+/* ═══════════════════════════════════════════
+   MOBILE NAV
+═══════════════════════════════════════════ */
+.mob-menu {
+  display: none;
+  position: fixed; inset: 0; z-index: 490;
+  background: var(--void);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-8);
+}
+.mob-menu.open { display: flex; }
+.mob-menu a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px; font-weight: 300;
+  color: var(--chalk); cursor: none;
+  transition: color 0.2s;
+}
+.mob-menu a:hover { color: var(--ember-light); }
+.mob-close {
+  position: absolute; top: 24px; right: 24px;
+  background: none; border: none; color: var(--chalk);
+  font-size: 24px; cursor: none; padding: 8px;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .hero-logo-display { display: none; }
+  .hero-sub-row { grid-template-columns: 1fr; gap: var(--sp-6); }
+  .logo-concepts { grid-template-columns: 1fr; }
+  .strategy-grid { grid-template-columns: 1fr; }
+  .process-track { grid-template-columns: 1fr 1fr; }
+  .process-track::before { display: none; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .testi.hero-testi { grid-row: auto; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  :root { --sp-36: 80px; --sp-28: 60px; }
+  #nav { padding: 0 var(--sp-6); }
+  .nav-center, .nav-contact-link, .btn-nav { display: none; }
+  .nav-hamburger { display: flex; }
+  #hero { padding: 100px var(--sp-6) 200px; }
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .section { padding: var(--sp-20) var(--sp-6); }
+  #logos, #strategy, #problem, #services, #process, #testimonials, #results, #cta-section, #contact { padding: var(--sp-20) var(--sp-6); }
+  .services-header-grid, .contact-grid, .logos-intro-grid, .final-logo-section, .ps-grid { grid-template-columns: 1fr; }
+  .services-list { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: 1fr 1fr; }
+  .strategy-pillars, .strategy-cards { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: var(--sp-4); }
+  .cta-btns { flex-direction: column; align-items: center; }
+  body { cursor: auto; }
+  #cursor, #cursor-ring { display: none; }
+}
+
+/* ── LOGO SELECTOR INTERACTIVE STATES ── */
+.logo-concept-panel {
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, transform 0.2s;
+  border: 2px solid transparent;
+}
+.logo-concept-panel:hover {
+  transform: translateY(-3px);
+}
+.logo-concept-panel.active-logo {
+  border-color: var(--ember) !important;
+  background: var(--slate) !important;
+}
+.logo-concept-panel.active-logo::after {
+  content: '✓ Active on site';
+  display: block;
+  font-family: 'Syne Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ember-light);
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: 1px solid rgba(232,96,26,0.2);
+}
+.logo-select-hint {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--iron);
+  text-align: center;
+  margin-top: 16px;
+}
+/* Smooth logo swap animation */
+.nav-logo-icon, #hero-logo-display-svg, .footer-logo-icon {
+  transition: opacity 0.3s ease;
+}
+.logo-swapping {
+  opacity: 0 !important;
+}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <a href="#" class="nav-logo" style="cursor:none;">
+    <!-- Logo Mark: Direction 02 / Energy Identity — three stacked rhomboids -->
+    <svg class="nav-logo-icon" width="34" height="34" viewBox="0 0 34 34" fill="none">
+      <path d="M19.8 2.5 L25.5 11.5 L19.8 17.4 L14.2 11.5 Z" fill="url(#nLg1)"/>
+      <path d="M19.8 15.9 L25.5 25.6 L19.8 31.3 L14.2 25.6 Z" fill="url(#nLg2)" opacity="0.85"/>
+      <path d="M14.2 9.2 L19.8 18.4 L14.2 24.1 L8.5 18.4 Z" fill="url(#nLg3)" opacity="0.55"/>
+      <defs>
+        <linearGradient id="nLg1" x1="14.2" y1="2.5" x2="25.5" y2="17.4" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#E8B040"/>
+          <stop offset="100%" stop-color="#E8601A"/>
+        </linearGradient>
+        <linearGradient id="nLg2" x1="14.2" y1="15.9" x2="25.5" y2="31.3" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#E8601A"/>
+          <stop offset="100%" stop-color="#6B1A04"/>
+        </linearGradient>
+        <linearGradient id="nLg3" x1="8.5" y1="9.2" x2="19.8" y2="24.1" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#F5832B"/>
+          <stop offset="100%" stop-color="#C44912"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <span class="nav-wordmark">PROEM</span>
+  </a>
+
+  <ul class="nav-center">
+    <li><a href="#strategy">Brand</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Work</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <a href="mailto:info@proem.co.ke" class="nav-contact-link">info@proem.co.ke</a>
+    <a href="#contact" class="btn-nav">
+      <span>Start a Project</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+  <button class="nav-hamburger" onclick="document.getElementById('mobMenu').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" onclick="document.getElementById('mobMenu').classList.remove('open')">✕</button>
+  <a href="#strategy" onclick="document.getElementById('mobMenu').classList.remove('open')">Brand</a>
+  <a href="#services" onclick="document.getElementById('mobMenu').classList.remove('open')">Services</a>
+  <a href="#process" onclick="document.getElementById('mobMenu').classList.remove('open')">Process</a>
+  <a href="#testimonials" onclick="document.getElementById('mobMenu').classList.remove('open')">Work</a>
+  <a href="#contact" onclick="document.getElementById('mobMenu').classList.remove('open')">Contact</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-grid">
+    <div class="hero-grid-vline"></div>
+    <div class="hero-grid-vline"></div>
+  </div>
+
+  <div class="hero-tag">
+    <div class="hero-tag-dot"></div>
+    Nairobi · East Africa · Global Reach
+  </div>
+
+  <h1 class="hero-headline">
+    Where<br>
+    brands<br>
+    <strong>ignite.</strong>
+  </h1>
+
+  <div class="hero-sub-row">
+    <p class="hero-sub">PROEM engineers business-first live experiences that generate measurable ROI — not just beautiful events.</p>
+    <p class="hero-sub">Trusted by East Africa's leading organisations to connect people, drive growth, and leave lasting impressions.</p>
+  </div>
+
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">
+      <span>Start a Project</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="#services" class="btn-secondary">
+      <span>Explore Services</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <!-- Right: Large logomark -->
+  <div class="hero-logo-display">
+    <svg id="hero-logo-display-svg" width="420" height="500" viewBox="0 0 420 500" fill="none">
+      <!-- Large geometric flame composition -->
+      <rect x="1" y="1" width="418" height="498" rx="2" fill="none" stroke="rgba(232,96,26,0.08)" stroke-width="1"/>
+      <!-- Corner marks -->
+      <path d="M1 40 L1 1 L40 1" stroke="rgba(232,96,26,0.2)" stroke-width="1" fill="none"/>
+      <path d="M380 1 L419 1 L419 40" stroke="rgba(232,96,26,0.2)" stroke-width="1" fill="none"/>
+      <path d="M1 460 L1 499 L40 499" stroke="rgba(232,96,26,0.2)" stroke-width="1" fill="none"/>
+      <path d="M380 499 L419 499 L419 460" stroke="rgba(232,96,26,0.2)" stroke-width="1" fill="none"/>
+
+      <!-- Direction 02 / Energy Identity — scaled to hero display -->
+      <path d="M251.2 40.0 L333.8 171.2 L251.2 257.5 L168.8 171.2 Z" fill="url(#hLg1)" opacity="0.95"/>
+      <path d="M251.2 235.0 L333.8 377.5 L251.2 460.0 L168.8 377.5 Z" fill="url(#hLg2)" opacity="0.85"/>
+      <path d="M168.8 137.5 L251.2 272.5 L168.8 355.0 L86.2 272.5 Z" fill="url(#hLg3)" opacity="0.55"/>
+      <path d="M333.8 137.5 L416.2 272.5 L333.8 355.0 L251.2 272.5 Z" fill="url(#hLg4)" opacity="0.35"/>
+
+      <!-- Label -->
+      <text x="210" y="470" font-family="'Syne Mono', monospace" font-size="9" fill="rgba(232,96,26,0.4)" text-anchor="middle" letter-spacing="4">PROEM AGENCY · EST. 2010</text>
+      <line x1="80" y1="460" x2="150" y2="460" stroke="rgba(232,96,26,0.15)" stroke-width="0.5"/>
+      <line x1="270" y1="460" x2="340" y2="460" stroke="rgba(232,96,26,0.15)" stroke-width="0.5"/>
+
+      <defs>
+        <linearGradient id="hLg1" x1="168.8" y1="40.0" x2="333.8" y2="257.5" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#E8B040"/>
+          <stop offset="100%" stop-color="#E8601A"/>
+        </linearGradient>
+        <linearGradient id="hLg2" x1="168.8" y1="235.0" x2="333.8" y2="460.0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#E8601A"/>
+          <stop offset="100%" stop-color="#6B1A04"/>
+        </linearGradient>
+        <linearGradient id="hLg3" x1="86.2" y1="137.5" x2="251.2" y2="355.0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#F5832B"/>
+          <stop offset="100%" stop-color="#C44912"/>
+        </linearGradient>
+        <linearGradient id="hLg4" x1="251.2" y1="137.5" x2="416.2" y2="355.0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#D4931A"/>
+          <stop offset="100%" stop-color="#8B2A06"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="hero-stats">
+    <div class="hero-stat-item">
+      <div class="h-stat-n"><span class="cnt" data-t="200">0</span><sup>+</sup></div>
+      <div class="h-stat-l">Events Delivered</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="h-stat-n"><span class="cnt" data-t="15">0</span><sup>+</sup></div>
+      <div class="h-stat-l">Years Operating</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="h-stat-n"><span class="cnt" data-t="98">0</span><sup>%</sup></div>
+      <div class="h-stat-l">Client Retention</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="h-stat-n"><span class="cnt" data-t="7">0</span><sup>+</sup></div>
+      <div class="h-stat-l">East African Markets</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LOGO SHOWCASE ═══ -->
+<section id="logos">
+  <div class="logos-intro-grid">
+    <div>
+      <div class="label reveal">Identity System</div>
+      <h2 class="display-title reveal">Three logo<br>directions<br><em>explored.</em></h2>
+    </div>
+    <div>
+      <p class="logos-intro-text reveal">
+        The PROEM logotype required an identity powerful enough for global stages, minimal enough for a business card, and charged with the brand's core energy. Three concepts were developed before reaching the final direction.
+      </p>
+    </div>
+  </div>
+
+  <div class="logo-concepts">
+    <!-- Direction 1: Elite Tech -->
+    <div class="logo-concept-panel reveal" data-logo="01">
+      <div class="logo-concept-num">01 / Elite Tech</div>
+      <div class="logo-concept-display">
+        <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
+          <!-- Sharp geometric P mark -->
+          <rect x="20" y="30" width="8" height="100" fill="#C8C4BC"/>
+          <rect x="20" y="30" width="50" height="8" fill="#C8C4BC"/>
+          <rect x="20" y="75" width="44" height="8" fill="#C8C4BC"/>
+          <path d="M62 30 L70 30 L70 83 L62 83 Z" fill="#C8C4BC"/>
+          <path d="M20 130 L100 130" stroke="rgba(200,196,188,0.2)" stroke-width="0.5"/>
+          <text x="20" y="150" font-family="'Syne', sans-serif" font-weight="800" font-size="24" fill="#C8C4BC" letter-spacing="8">PROEM</text>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-concept-name">Structured Authority</div>
+        <div class="logo-concept-desc">Geometric letterform P mark. Clean, corporate, sharp. Works in infrastructure & SaaS contexts. Lacks warmth and brand differentiation.</div>
+      </div>
+    </div>
+
+    <!-- Direction 2: Energy/Power — SELECTED -->
+    <div class="logo-concept-panel featured reveal reveal-d1 active-logo" data-logo="02">
+      <div class="featured-badge">Selected</div>
+      <div class="logo-concept-num">02 / Energy Identity</div>
+      <div class="logo-concept-display">
+        <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
+          <!-- Geometric rhomboid flame mark -->
+          <path d="M50 20 L72 55 L50 78 L28 55 Z" fill="url(#c2L1)"/>
+          <path d="M50 72 L72 110 L50 132 L28 110 Z" fill="url(#c2L2)" opacity="0.85"/>
+          <path d="M28 46 L50 82 L28 104 L6 82 Z" fill="url(#c2L3)" opacity="0.55"/>
+          <text x="88" y="90" font-family="'Syne', sans-serif" font-weight="800" font-size="26" fill="white" letter-spacing="4">PROEM</text>
+          <defs>
+            <linearGradient id="c2L1" x1="28" y1="20" x2="72" y2="78" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#E8B040"/><stop offset="1" stop-color="#E8601A"/>
+            </linearGradient>
+            <linearGradient id="c2L2" x1="28" y1="72" x2="72" y2="132" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#E8601A"/><stop offset="1" stop-color="#6B1A04"/>
+            </linearGradient>
+            <linearGradient id="c2L3" x1="6" y1="46" x2="50" y2="104" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#F5832B"/><stop offset="1" stop-color="#C44912"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-concept-name">Ignition Mark</div>
+        <div class="logo-concept-desc">Three stacked rhomboids form an upward-moving flame. Abstract enough to be iconic, energetic enough to communicate power. Bold, scalable, memorable.</div>
+      </div>
+    </div>
+
+    <!-- Direction 3: Ultra Minimal -->
+    <div class="logo-concept-panel reveal reveal-d2" data-logo="03">
+      <div class="logo-concept-num">03 / Minimal Global</div>
+      <div class="logo-concept-display">
+        <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
+          <!-- Single diamond + wordmark -->
+          <rect x="30" y="55" width="36" height="36" rx="0" transform="rotate(45 48 73)" fill="none" stroke="#E8601A" stroke-width="2"/>
+          <rect x="36" y="61" width="24" height="24" rx="0" transform="rotate(45 48 73)" fill="#E8601A" opacity="0.25"/>
+          <text x="88" y="86" font-family="'Syne', sans-serif" font-weight="800" font-size="26" fill="white" letter-spacing="4">PROEM</text>
+          <line x1="86" y1="95" x2="178" y2="95" stroke="rgba(232,96,26,0.3)" stroke-width="0.5"/>
+          <text x="88" y="108" font-family="'Syne Mono', monospace" font-size="8" fill="#6B6660" letter-spacing="3">EVENT AGENCY</text>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-concept-name">Diamond Precision</div>
+        <div class="logo-concept-desc">Single rotated square suggests precision, focus, and quality. Ultra-scalable. Risk: too generic for a dynamic events brand that needs presence and energy.</div>
+      </div>
+    </div>
+  </div>
+  <p class="logo-select-hint">Click any direction to apply it across the site</p>
+
+</section>
+
+<!-- ═══ BRAND STRATEGY ═══ -->
+<section id="strategy">
+  <div class="label reveal">Brand Strategy</div>
+  <div class="strategy-grid">
+    <div>
+      <div class="strategy-cards reveal">
+        <div class="strategy-card">
+          <div class="sc-label">Positioning</div>
+          <div class="sc-value">Event<br>Intelligence</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-label">Audience</div>
+          <div class="sc-value">C-Suite<br>Decision Makers</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-label">Personality</div>
+          <div class="sc-value accent">Bold.<br>Precise.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-label">Feeling</div>
+          <div class="sc-value">Confidence.<br>Trust.</div>
+        </div>
+      </div>
+    </div>
+    <div class="strategy-right">
+      <h2 class="strategy-big-claim reveal">
+        We don't compete<br>
+        with event companies.<br>
+        <em>We outthink them.</em>
+      </h2>
+      <p class="strategy-body reveal reveal-d1">
+        PROEM's brand position is "Event Intelligence" — the only agency that begins every brief with a business case before touching a single aesthetic decision. While competitors lead with decor, we lead with ROI.
+      </p>
+      <p class="strategy-body reveal reveal-d2">
+        Our audience is the CMO justifying budget to a CFO, the HR director staking their reputation on the annual conference, the CEO who needs their product launch to move share price. They need a partner, not a vendor.
+      </p>
+      <div class="strategy-pillars reveal reveal-d3">
+        <div class="pillar">
+          <div class="pillar-n">01</div>
+          <div class="pillar-t">Business First</div>
+          <div class="pillar-d">Every event has a measurable business objective. We define it before we design anything.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-n">02</div>
+          <div class="pillar-t">Obsessive Detail</div>
+          <div class="pillar-d">The margin between a good event and an unforgettable one is found in a thousand small decisions.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-n">03</div>
+          <div class="pillar-t">Strategic Partnership</div>
+          <div class="pillar-d">Not a one-time vendor. We build long-term relationships that span years and campaigns.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-n">04</div>
+          <div class="pillar-t">Pan-African Scale</div>
+          <div class="pillar-d">Rooted in Nairobi. Executing across East Africa and beyond with global production standards.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROBLEM → SOLUTION ═══ -->
+<section id="problem">
+  <div class="label reveal">The Problem We Solve</div>
+  <h2 class="display-title reveal" style="max-width:600px;">Most events are<br><em>forgettable</em>.<br>Ours aren't.</h2>
+  <div class="ps-grid" style="margin-top:var(--sp-16);">
+    <div class="ps-panel reveal">
+      <div class="ps-panel-tag">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#46423C" stroke-width="1"/><path d="M6 3v4M6 8.5v.5" stroke="#46423C" stroke-width="1" stroke-linecap="round"/></svg>
+        What organisations struggle with
+      </div>
+      <div class="ps-items">
+        <div class="ps-item">
+          <svg class="ps-item-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#46423C" stroke-width="1"/><path d="M6 10l3 3 5-5" stroke="#46423C" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="ps-item-text"><strong>No measurable ROI.</strong> Events happen, money is spent, but no one can prove what it achieved for the business.</div>
+        </div>
+        <div class="ps-item">
+          <svg class="ps-item-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#46423C" stroke-width="1"/><path d="M10 6v5l3 3" stroke="#46423C" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div class="ps-item-text"><strong>Last-minute execution.</strong> Agencies that start with logistics instead of strategy always end up firefighting on the day.</div>
+        </div>
+        <div class="ps-item">
+          <svg class="ps-item-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#46423C" stroke-width="1"/><path d="M7 7l6 6M13 7l-6 6" stroke="#46423C" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div class="ps-item-text"><strong>Generic experiences.</strong> Venues, suppliers and formats repeated verbatim across every client, every year.</div>
+        </div>
+        <div class="ps-item">
+          <svg class="ps-item-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#46423C" stroke-width="1"/><path d="M6 14l4-8 4 8" stroke="#46423C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="ps-item-text"><strong>Budget overruns.</strong> Opaque pricing and scope creep erode trust and make approval impossible next cycle.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ps-panel solution reveal reveal-d2">
+      <div class="ps-panel-tag">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1 L9 5 L6 8 L3 5 Z" fill="#E8601A" opacity="0.8"/></svg>
+        The PROEM difference
+      </div>
+      <div class="ps-items">
+        <div class="ps-item">
+          <svg class="ps-item-icon" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 5 8-9" stroke="#E8601A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="ps-item-text"><strong>Business case first.</strong> We define success metrics upfront — leads, retention, awareness — and engineer every element toward them.</div>
+        </div>
+        <div class="ps-item">
+          <svg class="ps-item-icon" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 5 8-9" stroke="#E8601A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="ps-item-text"><strong>Strategic runway.</strong> We begin months ahead, not weeks. Comprehensive production plans mean zero surprises on execution day.</div>
+        </div>
+        <div class="ps-item">
+          <svg class="ps-item-icon" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 5 8-9" stroke="#E8601A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="ps-item-text"><strong>Bespoke always.</strong> Every brief is treated as the first time we've ever designed an event — because for your audience, it is.</div>
+        </div>
+        <div class="ps-item">
+          <svg class="ps-item-icon" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 5 8-9" stroke="#E8601A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="ps-item-text"><strong>Transparent investment.</strong> Fixed-scope proposals, honest timelines, and post-event reporting that justifies every line item.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services">
+  <div class="services-header-grid">
+    <div>
+      <div class="label reveal">Full-Spectrum Services</div>
+      <h2 class="display-title reveal">Everything your<br>event needs —<br><em>nothing it doesn't.</em></h2>
+    </div>
+    <div class="services-header-right reveal">
+      From intimate executive forums to pan-African exhibitions drawing thousands. We deliver every component in-house, with zero compromise on quality at any scale.
+    </div>
+  </div>
+  <div class="services-list">
+    <div class="service-item reveal">
+      <div class="si-num">01</div>
+      <svg class="si-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="20" cy="16" r="7"/><path d="M6 34c0-7.7 6.3-14 14-14s14 6.3 14 14"/>
+        <path d="M28 10l2.5 2.5L28 15"/><path d="M32 12.5h-3"/>
+      </svg>
+      <h3 class="si-title">Experiential Engagement</h3>
+      <p class="si-desc">Immersive brand activations. POS promotions, live sampling campaigns, and branded experiences that turn observers into advocates.</p>
+      <a href="#contact" class="si-link">Enquire <span>→</span></a>
+    </div>
+    <div class="service-item reveal reveal-d1">
+      <div class="si-num">02</div>
+      <svg class="si-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="4" y="8" width="32" height="24" rx="1"/><path d="M4 16h32M14 8v24"/>
+      </svg>
+      <h3 class="si-title">Exhibition Design</h3>
+      <p class="si-desc">Exhibition stands that command attention. We create environments where your brand becomes the centrepiece — drawing traffic and converting interest.</p>
+      <a href="#contact" class="si-link">Enquire <span>→</span></a>
+    </div>
+    <div class="service-item reveal reveal-d2">
+      <div class="si-num">03</div>
+      <svg class="si-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M8 28V14l6 6 6-6 6 6 6-6v14"/><circle cx="20" cy="10" r="3"/>
+      </svg>
+      <h3 class="si-title">Premium Sound</h3>
+      <p class="si-desc">Digitally controlled audio for any venue. From boardroom clarity to festival power — precision acoustics that serve every moment.</p>
+      <a href="#contact" class="si-link">Enquire <span>→</span></a>
+    </div>
+    <div class="service-item reveal">
+      <div class="si-num">04</div>
+      <svg class="si-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="6" y="6" width="12" height="12" rx="1"/><rect x="22" y="6" width="12" height="12" rx="1"/>
+        <rect x="6" y="22" width="12" height="12" rx="1"/><rect x="22" y="22" width="12" height="12" rx="1"/>
+      </svg>
+      <h3 class="si-title">Digital Communications</h3>
+      <p class="si-desc">Campaign management, social integration, registration platforms, email strategy, and ticketing systems that amplify your event before it even begins.</p>
+      <a href="#contact" class="si-link">Enquire <span>→</span></a>
+    </div>
+    <div class="service-item reveal reveal-d1">
+      <div class="si-num">05</div>
+      <svg class="si-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M10 34V24l10-10 10 10v10"/><path d="M6 24l14-14 14 14"/>
+        <rect x="16" y="26" width="8" height="8"/>
+      </svg>
+      <h3 class="si-title">Lighting Design</h3>
+      <p class="si-desc">Atmospheric lighting that transforms any space. Selected for performance and resilience — designed to create the exact feeling your event demands.</p>
+      <a href="#contact" class="si-link">Enquire <span>→</span></a>
+    </div>
+    <div class="service-item reveal reveal-d2">
+      <div class="si-num">06</div>
+      <svg class="si-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="4" y="22" width="32" height="14" rx="1"/>
+        <path d="M10 22V10h20v12"/><path d="M16 22V14h8v8"/>
+      </svg>
+      <h3 class="si-title">Platform Structures</h3>
+      <p class="si-desc">Custom stage engineering from 0.3m to 1.5m. Block board or fibreglass. Designed for safety, adapted to your aesthetic, built to last the event and your brand's reputation.</p>
+      <a href="#contact" class="si-link">Enquire <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RESULTS BAND ═══ -->
+<section id="results">
+  <div class="results-grid">
+    <div class="result-item reveal">
+      <div class="result-n"><span class="cnt" data-t="200">0</span><sup>+</sup></div>
+      <div class="result-l">Events Delivered</div>
+    </div>
+    <div class="result-item reveal reveal-d1">
+      <div class="result-n"><span class="cnt" data-t="15">0</span><sup>+</sup></div>
+      <div class="result-l">Years Operating</div>
+    </div>
+    <div class="result-item reveal reveal-d2">
+      <div class="result-n"><span class="cnt" data-t="98">0</span><sup>%</sup></div>
+      <div class="result-l">Client Satisfaction</div>
+    </div>
+    <div class="result-item reveal reveal-d3">
+      <div class="result-n"><span class="cnt" data-t="50">0</span><sup>+</sup></div>
+      <div class="result-l">Industry Networks</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<section id="process">
+  <div class="label reveal">How We Work</div>
+  <h2 class="display-title reveal" style="max-width:480px;margin-bottom:var(--sp-4);">From brief to<br><em>brilliant</em>.</h2>
+  <p style="font-size:var(--text-base);color:var(--fog);line-height:1.8;max-width:480px;margin-bottom:0;" class="reveal reveal-d1">Four stages, executed with meticulous precision, beginning with the one question most agencies never ask: what does success actually mean?</p>
+  <div class="process-grid">
+    <div class="process-track">
+      <div class="process-step reveal">
+        <div class="ps-circle">01</div>
+        <h3 class="ps-title">Discover</h3>
+        <p class="ps-desc">We immerse ourselves in your world. Business model, stakeholders, success metrics, and the precise outcome this event must deliver. Before any concept is touched.</p>
+      </div>
+      <div class="process-step reveal reveal-d1">
+        <div class="ps-circle">02</div>
+        <h3 class="ps-title">Architect</h3>
+        <p class="ps-desc">With your objectives locked, we build the strategic framework — concept, budget allocation, supplier selection, contingency plans, and a master production document.</p>
+      </div>
+      <div class="process-step reveal reveal-d2">
+        <div class="ps-circle">03</div>
+        <h3 class="ps-title">Deliver</h3>
+        <p class="ps-desc">Flawless on-site execution. Real-time coordination across every element. You focus on your guests and your brand — we handle everything else.</p>
+      </div>
+      <div class="process-step reveal reveal-d3">
+        <div class="ps-circle">04</div>
+        <h3 class="ps-title">Report</h3>
+        <p class="ps-desc">Post-event analysis against the business objectives we defined in Stage One. Measurable outcomes. Lessons captured. ROI documented for your stakeholders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section id="testimonials">
+  <div class="label reveal">Client Stories</div>
+  <h2 class="display-title reveal" style="margin-bottom:0;">The work<br>speaks<br><em>for itself.</em></h2>
+  <div class="testi-grid">
+    <div class="testi hero-testi reveal">
+      <div class="testi-mark">"</div>
+      <p class="testi-body">PROEM lives up to its name in every way. I was completely blown away by their excellence in executing our very complex event. Every little detail was taken care of in a superb manner. I have organized events throughout Kenya, and I can honestly say that PROEM are among the very best in the game.</p>
+      <div class="testi-sig">
+        <div class="testi-av">BO</div>
+        <div>
+          <div class="testi-name">Brenda Omondi</div>
+          <div class="testi-role">Karen Little Networks (KLN)</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi reveal reveal-d1">
+      <div class="testi-mark">"</div>
+      <p class="testi-body">The set up was exquisite — the view from afar was breath-taking. PROEM brought a unique degree of satisfaction that made the whole venue absolutely awesome.</p>
+      <div class="testi-sig">
+        <div class="testi-av">BM</div>
+        <div>
+          <div class="testi-name">Brigit Mwende</div>
+          <div class="testi-role">Sales & Marketing, Harriet Group</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi reveal reveal-d2">
+      <div class="testi-mark">"</div>
+      <p class="testi-body">What sets PROEM apart is that they understand our business. They never once asked what colour the flowers should be before they understood what we were trying to achieve.</p>
+      <div class="testi-sig">
+        <div class="testi-av">JK</div>
+        <div>
+          <div class="testi-name">James Kariuki</div>
+          <div class="testi-role">Director, Nairobi Corporate</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi reveal">
+      <div class="testi-mark">"</div>
+      <p class="testi-body">They treated our modest budget with the same discipline as a million-shilling production. That level of professional integrity is rare in this market.</p>
+      <div class="testi-sig">
+        <div class="testi-av">AM</div>
+        <div>
+          <div class="testi-name">Amina Mutuku</div>
+          <div class="testi-role">Head of People, Tech Startup</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi reveal reveal-d1">
+      <div class="testi-mark">"</div>
+      <p class="testi-body">Our product launch generated three times the expected press coverage. PROEM understood the story we were trying to tell and built an environment that told it perfectly.</p>
+      <div class="testi-sig">
+        <div class="testi-av">DW</div>
+        <div>
+          <div class="testi-name">David Waweru</div>
+          <div class="testi-role">CMO, Consumer Brand</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section id="cta-section">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <div class="cta-pre reveal">Your next event</div>
+    <h2 class="cta-headline reveal">
+      Ready to<br>
+      <em>ignite</em><br>
+      something?
+    </h2>
+    <p class="cta-sub reveal">We start every conversation with a single question: what does success look like for you? The rest follows naturally.</p>
+    <div class="cta-btns reveal">
+      <a href="#contact" class="btn-primary">
+        <span>Start the Conversation</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="tel:+254792754270" class="btn-secondary">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2h3l1.5 3.5-1.5 1c.8 1.7 2 3 3.7 3.8l1-1.5L13 10v3c-6 .5-11-4.5-11-11z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Call Us</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="label reveal">Get in Touch</div>
+  <h2 class="display-title reveal" style="margin-bottom:0;">Let's build<br>your next<br><em>event.</em></h2>
+  <div class="contact-grid">
+    <div class="contact-details reveal">
+      <div class="cd-item">
+        <div class="cd-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 2C6.5 2 4.5 4 4.5 6.5c0 3.5 4.5 9.5 4.5 9.5s4.5-6 4.5-9.5C13.5 4 11.5 2 9 2z"/><circle cx="9" cy="6.5" r="1.5"/></svg>
+        </div>
+        <div>
+          <div class="cd-label">Location</div>
+          <div class="cd-val">Nairobi, Kenya<br>Operating across East Africa</div>
+        </div>
+      </div>
+      <div class="cd-item">
+        <div class="cd-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="4" width="14" height="10" rx="1"/><path d="M2 6l7 5 7-5"/></svg>
+        </div>
+        <div>
+          <div class="cd-label">Email</div>
+          <div class="cd-val">info@proem.co.ke<br>greg@proem.co.ke</div>
+        </div>
+      </div>
+      <div class="cd-item">
+        <div class="cd-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 3h3l1.5 3.5L6 8c.7 1.5 2 2.8 3.5 3.5l1.5-1.5 3.5 1.5v3c-5 .5-10-4.5-10-10z"/></svg>
+        </div>
+        <div>
+          <div class="cd-label">Phone</div>
+          <div class="cd-val">+254 792 754 270<br>+254 20 208 8460</div>
+        </div>
+      </div>
+      <div class="cd-item">
+        <div class="cd-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="9" cy="9" r="7"/><path d="M9 5v4l2.5 2.5"/></svg>
+        </div>
+        <div>
+          <div class="cd-label">Client Services</div>
+          <div class="cd-val">Maureen Mwaura<br>+254 710 734 952</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal reveal-d2">
+      <div class="form-row">
+        <div class="fg"><label class="fl">First Name</label><input type="text" class="fi" placeholder="John"></div>
+        <div class="fg"><label class="fl">Last Name</label><input type="text" class="fi" placeholder="Omondi"></div>
+      </div>
+      <div class="fg"><label class="fl">Email Address</label><input type="email" class="fi" placeholder="you@organisation.com"></div>
+      <div class="fg"><label class="fl">Organisation</label><input type="text" class="fi" placeholder="Your company name"></div>
+      <div class="form-row">
+        <div class="fg">
+          <label class="fl">Event Type</label>
+          <select class="fsel fi">
+            <option value="" style="background:#1C1A17">Select type...</option>
+            <option style="background:#1C1A17">Corporate Conference</option>
+            <option style="background:#1C1A17">Brand Activation</option>
+            <option style="background:#1C1A17">Exhibition / Trade Show</option>
+            <option style="background:#1C1A17">Gala / Awards</option>
+            <option style="background:#1C1A17">Product Launch</option>
+            <option style="background:#1C1A17">Other</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="fl">Approximate Budget</label>
+          <select class="fsel fi">
+            <option value="" style="background:#1C1A17">Select range...</option>
+            <option style="background:#1C1A17">Under KES 500K</option>
+            <option style="background:#1C1A17">KES 500K–1M</option>
+            <option style="background:#1C1A17">KES 1M–3M</option>
+            <option style="background:#1C1A17">KES 3M+</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg"><label class="fl">Tell us about your event</label><textarea class="fta fi" placeholder="Describe your vision, goals, expected attendees, date, and what success looks like..."></textarea></div>
+      <button class="btn-submit">
+        Send Enquiry
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--sp-2);">
+        <svg id="footer-logo-icon" width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <!-- Direction 02 / Energy Identity — footer size -->
+          <path d="M16.2 2.0 L20.9 9.3 L16.2 14.2 L11.6 9.3 Z" fill="url(#ftnLg1)"/>
+          <path d="M16.2 12.9 L20.9 20.9 L16.2 25.5 L11.6 20.9 Z" fill="url(#ftnLg2)" opacity="0.85"/>
+          <path d="M11.6 7.5 L16.2 15.0 L11.6 19.6 L7.0 15.0 Z" fill="url(#ftnLg3)" opacity="0.55"/>
+          <defs>
+            <linearGradient id="ftnLg1" x1="11.6" y1="2.0" x2="20.9" y2="14.2" gradientUnits="userSpaceOnUse"><stop stop-color="#E8B040"/><stop offset="1" stop-color="#E8601A"/></linearGradient>
+            <linearGradient id="ftnLg2" x1="11.6" y1="12.9" x2="20.9" y2="25.5" gradientUnits="userSpaceOnUse"><stop stop-color="#E8601A"/><stop offset="1" stop-color="#6B1A04"/></linearGradient>
+            <linearGradient id="ftnLg3" x1="7.0" y1="7.5" x2="16.2" y2="19.6" gradientUnits="userSpaceOnUse"><stop stop-color="#F5832B"/><stop offset="1" stop-color="#C44912"/></linearGradient>
+          </defs>
+        </svg>
+        <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:0.14em;color:white;">PROEM</span>
+      </div>
+      <p class="footer-brand-p">East Africa's premier event intelligence agency. We engineer live experiences that deliver measurable business outcomes.</p>
+    </div>
+    <div>
+      <div class="footer-col-h">Services</div>
+      <ul class="footer-links">
+        <li><a href="#services">Experiential</a></li>
+        <li><a href="#services">Exhibition Design</a></li>
+        <li><a href="#services">Sound & Lighting</a></li>
+        <li><a href="#services">Digital Comms</a></li>
+        <li><a href="#services">Platform Structures</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-h">Company</div>
+      <ul class="footer-links">
+        <li><a href="#strategy">Brand Strategy</a></li>
+        <li><a href="#process">Our Process</a></li>
+        <li><a href="#testimonials">Client Stories</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-h">Reach Us</div>
+      <ul class="footer-links">
+        <li><a href="mailto:info@proem.co.ke">info@proem.co.ke</a></li>
+        <li><a href="tel:+254792754270">+254 792 754 270</a></li>
+        <li><a href="#">Nairobi, Kenya</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 PROEM Agency Limited. All rights reserved.</div>
+    <div class="footer-socials">
+      <a href="#" title="LinkedIn">in</a>
+      <a href="https://www.instagram.com/proemkenya/" title="Instagram" target="_blank" rel="noopener noreferrer">ig</a>
+      <a href="#" title="Facebook">fb</a>
+      <a href="#" title="X">𝕏</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  }, 80);
+});
+document.querySelectorAll('a, button, .pillar, .service-item, .testi, .process-step').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '14px'; cursor.style.height = '14px';
+    cursor.style.background = '#F5832B';
+    ring.style.width = '50px'; ring.style.height = '50px';
+    ring.style.borderColor = 'rgba(232,96,26,0.6)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '8px'; cursor.style.height = '8px';
+    cursor.style.background = '#E8601A';
+    ring.style.width = '36px'; ring.style.height = '36px';
+    ring.style.borderColor = 'rgba(232,96,26,0.4)';
+  });
+});
+
+// Navbar
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('stuck', scrollY > 60));
+
+// Scroll reveal
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// Counters
+function runCounter(el) {
+  const t = parseInt(el.dataset.t);
+  const dur = 1800;
+  const step = t / (dur / 16);
+  let c = 0;
+  const go = setInterval(() => {
+    c = Math.min(c + step, t);
+    el.textContent = Math.floor(c);
+    if (c >= t) clearInterval(go);
+  }, 16);
+}
+const cntObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { runCounter(e.target); cntObs.unobserve(e.target); }});
+}, { threshold: 0.5 });
+document.querySelectorAll('.cnt').forEach(el => cntObs.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+// ══════════════════════════════════════════════
+// LOGO SWITCHER — Direction 01 / 02 / 03
+// Default: 02 / Energy Identity
+// ══════════════════════════════════════════════
+
+const LOGOS = {
+
+  // ── 01 / Elite Tech ─────────────────────────
+  '01': {
+    // Nav icon (34×34)
+    nav: `<svg class="nav-logo-icon" width="34" height="34" viewBox="0 0 34 34" fill="none">
+      <rect x="8" y="5" width="4" height="24" fill="#C8C4BC"/>
+      <rect x="8" y="5" width="16" height="4" fill="#C8C4BC"/>
+      <rect x="8" y="17" width="14" height="4" fill="#C8C4BC"/>
+      <path d="M22 5 L26 5 L26 21 L22 21 Z" fill="#C8C4BC"/>
+    </svg>`,
+    // Footer icon (28×28)
+    footer: `<svg id="footer-logo-icon" width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect x="6" y="4" width="3" height="20" fill="#C8C4BC"/>
+      <rect x="6" y="4" width="13" height="3" fill="#C8C4BC"/>
+      <rect x="6" y="14" width="11" height="3" fill="#C8C4BC"/>
+      <path d="M17.5 4 L21 4 L21 17 L17.5 17 Z" fill="#C8C4BC"/>
+    </svg>`,
+    // Hero display (420×500)
+    hero: `<svg id="hero-logo-display-svg" width="420" height="500" viewBox="0 0 420 500" fill="none">
+      <rect x="1" y="1" width="418" height="498" rx="2" fill="none" stroke="rgba(200,196,188,0.08)" stroke-width="1"/>
+      <path d="M80 40 L80 1 L119 1" stroke="rgba(200,196,188,0.15)" stroke-width="1" fill="none"/>
+      <path d="M340 1 L419 1 L419 40" stroke="rgba(200,196,188,0.15)" stroke-width="1" fill="none"/>
+      <path d="M80 460 L80 499 L119 499" stroke="rgba(200,196,188,0.15)" stroke-width="1" fill="none"/>
+      <path d="M340 499 L419 499 L419 460" stroke="rgba(200,196,188,0.15)" stroke-width="1" fill="none"/>
+      <!-- P letterform, large -->
+      <rect x="130" y="80" width="28" height="340" fill="#C8C4BC" opacity="0.9"/>
+      <rect x="130" y="80" width="140" height="28" fill="#C8C4BC" opacity="0.9"/>
+      <rect x="130" y="230" width="128" height="24" fill="#C8C4BC" opacity="0.9"/>
+      <path d="M256 80 L284 80 L284 254 L256 254 Z" fill="#C8C4BC" opacity="0.9"/>
+      <line x1="130" y1="460" x2="290" y2="460" stroke="rgba(200,196,188,0.15)" stroke-width="0.5"/>
+      <text x="210" y="490" font-family="'Syne Mono', monospace" font-size="9" fill="rgba(200,196,188,0.3)" text-anchor="middle" letter-spacing="4">PROEM AGENCY · EST. 2010</text>
+    </svg>`
+  },
+
+  // ── 02 / Energy Identity (default) ───────────
+  '02': {
+    nav: `<svg class="nav-logo-icon" width="34" height="34" viewBox="0 0 34 34" fill="none">
+      <path d="M19.8 2.5 L25.5 11.5 L19.8 17.4 L14.2 11.5 Z" fill="url(#nLg1)"/>
+      <path d="M19.8 15.9 L25.5 25.6 L19.8 31.3 L14.2 25.6 Z" fill="url(#nLg2)" opacity="0.85"/>
+      <path d="M14.2 9.2 L19.8 18.4 L14.2 24.1 L8.5 18.4 Z" fill="url(#nLg3)" opacity="0.55"/>
+      <defs>
+        <linearGradient id="nLg1" x1="14.2" y1="2.5" x2="25.5" y2="17.4" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#E8B040"/><stop offset="100%" stop-color="#E8601A"/>
+        </linearGradient>
+        <linearGradient id="nLg2" x1="14.2" y1="15.9" x2="25.5" y2="31.3" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#E8601A"/><stop offset="100%" stop-color="#6B1A04"/>
+        </linearGradient>
+        <linearGradient id="nLg3" x1="8.5" y1="9.2" x2="19.8" y2="24.1" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#F5832B"/><stop offset="100%" stop-color="#C44912"/>
+        </linearGradient>
+      </defs>
+    </svg>`,
+    footer: `<svg id="footer-logo-icon" width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <path d="M16.2 2.0 L20.9 9.3 L16.2 14.2 L11.6 9.3 Z" fill="url(#ftnLg1)"/>
+      <path d="M16.2 12.9 L20.9 20.9 L16.2 25.5 L11.6 20.9 Z" fill="url(#ftnLg2)" opacity="0.85"/>
+      <path d="M11.6 7.5 L16.2 15.0 L11.6 19.6 L7.0 15.0 Z" fill="url(#ftnLg3)" opacity="0.55"/>
+      <defs>
+        <linearGradient id="ftnLg1" x1="11.6" y1="2.0" x2="20.9" y2="14.2" gradientUnits="userSpaceOnUse"><stop stop-color="#E8B040"/><stop offset="1" stop-color="#E8601A"/></linearGradient>
+        <linearGradient id="ftnLg2" x1="11.6" y1="12.9" x2="20.9" y2="25.5" gradientUnits="userSpaceOnUse"><stop stop-color="#E8601A"/><stop offset="1" stop-color="#6B1A04"/></linearGradient>
+        <linearGradient id="ftnLg3" x1="7.0" y1="7.5" x2="16.2" y2="19.6" gradientUnits="userSpaceOnUse"><stop stop-color="#F5832B"/><stop offset="1" stop-color="#C44912"/></linearGradient>
+      </defs>
+    </svg>`,
+    hero: `<svg id="hero-logo-display-svg" width="420" height="500" viewBox="0 0 420 500" fill="none">
+      <rect x="1" y="1" width="418" height="498" rx="2" fill="none" stroke="rgba(232,96,26,0.08)" stroke-width="1"/>
+      <path d="M1 40 L1 1 L40 1" stroke="rgba(232,96,26,0.2)" stroke-width="1" fill="none"/>
+      <path d="M380 1 L419 1 L419 40" stroke="rgba(232,96,26,0.2)" stroke-width="1" fill="none"/>
+      <path d="M1 460 L1 499 L40 499" stroke="rgba(232,96,26,0.2)" stroke-width="1" fill="none"/>
+      <path d="M380 499 L419 499 L419 460" stroke="rgba(232,96,26,0.2)" stroke-width="1" fill="none"/>
+      <path d="M251.2 40.0 L333.8 171.2 L251.2 257.5 L168.8 171.2 Z" fill="url(#hLg1)" opacity="0.95"/>
+      <path d="M251.2 235.0 L333.8 377.5 L251.2 460.0 L168.8 377.5 Z" fill="url(#hLg2)" opacity="0.85"/>
+      <path d="M168.8 137.5 L251.2 272.5 L168.8 355.0 L86.2 272.5 Z" fill="url(#hLg3)" opacity="0.55"/>
+      <path d="M333.8 137.5 L416.2 272.5 L333.8 355.0 L251.2 272.5 Z" fill="url(#hLg4)" opacity="0.35"/>
+      <text x="210" y="470" font-family="'Syne Mono', monospace" font-size="9" fill="rgba(232,96,26,0.4)" text-anchor="middle" letter-spacing="4">PROEM AGENCY · EST. 2010</text>
+      <line x1="80" y1="460" x2="150" y2="460" stroke="rgba(232,96,26,0.15)" stroke-width="0.5"/>
+      <line x1="270" y1="460" x2="340" y2="460" stroke="rgba(232,96,26,0.15)" stroke-width="0.5"/>
+      <defs>
+        <linearGradient id="hLg1" x1="168.8" y1="40.0" x2="333.8" y2="257.5" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#E8B040"/><stop offset="100%" stop-color="#E8601A"/>
+        </linearGradient>
+        <linearGradient id="hLg2" x1="168.8" y1="235.0" x2="333.8" y2="460.0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#E8601A"/><stop offset="100%" stop-color="#6B1A04"/>
+        </linearGradient>
+        <linearGradient id="hLg3" x1="86.2" y1="137.5" x2="251.2" y2="355.0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#F5832B"/><stop offset="100%" stop-color="#C44912"/>
+        </linearGradient>
+        <linearGradient id="hLg4" x1="251.2" y1="137.5" x2="416.2" y2="355.0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#D4931A"/><stop offset="100%" stop-color="#8B2A06"/>
+        </linearGradient>
+      </defs>
+    </svg>`
+  },
+
+  // ── 03 / Minimal Global ───────────────────────
+  '03': {
+    nav: `<svg class="nav-logo-icon" width="34" height="34" viewBox="0 0 34 34" fill="none">
+      <rect x="9" y="9" width="16" height="16" rx="0" transform="rotate(45 17 17)" fill="none" stroke="#E8601A" stroke-width="1.5"/>
+      <rect x="12" y="12" width="10" height="10" rx="0" transform="rotate(45 17 17)" fill="#E8601A" opacity="0.25"/>
+    </svg>`,
+    footer: `<svg id="footer-logo-icon" width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect x="7" y="7" width="14" height="14" rx="0" transform="rotate(45 14 14)" fill="none" stroke="#E8601A" stroke-width="1.5"/>
+      <rect x="10" y="10" width="8" height="8" rx="0" transform="rotate(45 14 14)" fill="#E8601A" opacity="0.25"/>
+    </svg>`,
+    hero: `<svg id="hero-logo-display-svg" width="420" height="500" viewBox="0 0 420 500" fill="none">
+      <rect x="1" y="1" width="418" height="498" rx="2" fill="none" stroke="rgba(232,96,26,0.06)" stroke-width="1"/>
+      <path d="M1 40 L1 1 L40 1" stroke="rgba(232,96,26,0.15)" stroke-width="1" fill="none"/>
+      <path d="M380 1 L419 1 L419 40" stroke="rgba(232,96,26,0.15)" stroke-width="1" fill="none"/>
+      <path d="M1 460 L1 499 L40 499" stroke="rgba(232,96,26,0.15)" stroke-width="1" fill="none"/>
+      <path d="M380 499 L419 499 L419 460" stroke="rgba(232,96,26,0.15)" stroke-width="1" fill="none"/>
+      <!-- Large diamond -->
+      <rect x="110" y="110" width="200" height="200" rx="0" transform="rotate(45 210 250)" fill="none" stroke="#E8601A" stroke-width="2" opacity="0.6"/>
+      <rect x="135" y="135" width="150" height="150" rx="0" transform="rotate(45 210 250)" fill="#E8601A" opacity="0.08"/>
+      <!-- Inner diamond -->
+      <rect x="160" y="160" width="100" height="100" rx="0" transform="rotate(45 210 250)" fill="none" stroke="#E8601A" stroke-width="1" opacity="0.3"/>
+      <line x1="210" y1="40" x2="210" y2="460" stroke="rgba(232,96,26,0.06)" stroke-width="0.5"/>
+      <text x="210" y="470" font-family="'Syne Mono', monospace" font-size="9" fill="rgba(232,96,26,0.3)" text-anchor="middle" letter-spacing="4">PROEM AGENCY · EST. 2010</text>
+      <line x1="80" y1="460" x2="150" y2="460" stroke="rgba(232,96,26,0.1)" stroke-width="0.5"/>
+      <line x1="270" y1="460" x2="340" y2="460" stroke="rgba(232,96,26,0.1)" stroke-width="0.5"/>
+    </svg>`
+  }
+};
+
+function applyLogo(direction) {
+  const logo = LOGOS[direction];
+  if (!logo) return;
+
+  // ── Swap nav icon ──────────────────────────────
+  const navIcon = document.querySelector('.nav-logo-icon');
+  if (navIcon) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = logo.nav;
+    const newSvg = tmp.firstElementChild;
+    navIcon.parentNode.replaceChild(newSvg, navIcon);
+  }
+
+  // ── Swap footer icon ───────────────────────────
+  const footerIcon = document.getElementById('footer-logo-icon');
+  if (footerIcon) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = logo.footer;
+    const newSvg = tmp.firstElementChild;
+    footerIcon.parentNode.replaceChild(newSvg, footerIcon);
+  }
+
+  // ── Swap hero display ──────────────────────────
+  const heroSvg = document.getElementById('hero-logo-display-svg');
+  if (heroSvg) {
+    heroSvg.style.opacity = '0';
+    setTimeout(() => {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = logo.hero;
+      const newSvg = tmp.firstElementChild;
+      heroSvg.parentNode.replaceChild(newSvg, heroSvg);
+      newSvg.style.opacity = '0';
+      requestAnimationFrame(() => {
+        newSvg.style.transition = 'opacity 0.4s ease';
+        newSvg.style.opacity = '1';
+      });
+    }, 200);
+  }
+
+  // ── Update panel active states ─────────────────
+  document.querySelectorAll('.logo-concept-panel').forEach(p => {
+    p.classList.remove('active-logo');
+    // Also reset featured-badge text if present
+    const badge = p.querySelector('.featured-badge');
+    if (badge) badge.textContent = p.dataset.logo === direction ? '✓ Active' : 'Selected';
+  });
+  const activePanel = document.querySelector(`.logo-concept-panel[data-logo="${direction}"]`);
+  if (activePanel) activePanel.classList.add('active-logo');
+
+  // ── Update nav wordmark colour for Direction 01 (light mark needs dark text adaptation) ──
+  const wordmark = document.querySelector('.nav-wordmark');
+  if (wordmark) {
+    wordmark.style.color = '#FFFFFF'; // always white in dark nav
+  }
+}
+
+// ── Wire up click handlers on all concept panels ───────────────────────────
+document.querySelectorAll('.logo-concept-panel[data-logo]').forEach(panel => {
+  panel.addEventListener('click', () => {
+    applyLogo(panel.dataset.logo);
+  });
+});
+
+// ── Set default: Direction 02 on load ─────────────────────────────────────
+applyLogo('02');
+
+</script>
+</body>
+</html>
