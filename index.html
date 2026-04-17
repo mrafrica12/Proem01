@@ -1308,6 +1308,167 @@ footer {
 .logo-swapping {
   opacity: 0 !important;
 }
+
+/* ═══════════════════════════════════════════
+   SHOP / ORDER FORM
+═══════════════════════════════════════════ */
+#shop { background: var(--carbon); }
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-16);
+  align-items: start;
+  margin-top: var(--sp-12);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-8);
+}
+
+.product-card {
+  background: var(--slate);
+  border: 2px solid transparent;
+  padding: var(--sp-6);
+  cursor: none;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+.product-card:hover { background: var(--iron); transform: translateY(-2px); }
+.product-card.selected {
+  border-color: var(--ember);
+  background: rgba(232,96,26,0.08);
+}
+.product-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 10px; right: 12px;
+  font-size: 13px;
+  color: var(--ember);
+  font-weight: 700;
+}
+.product-icon {
+  width: 44px; height: 44px;
+  background: rgba(232,96,26,0.1);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--sp-4);
+}
+.product-name {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--chalk);
+  margin-bottom: 4px;
+}
+.product-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: var(--text-xl);
+  color: var(--ember-light);
+}
+.product-price span {
+  font-family: 'Syne Mono', monospace;
+  font-size: var(--text-xs);
+  color: var(--fog);
+  letter-spacing: 0.1em;
+}
+
+.order-form { display: flex; flex-direction: column; gap: var(--sp-4); }
+.order-summary {
+  background: var(--slate);
+  border: 1px solid var(--border-mid);
+  padding: var(--sp-6);
+  margin-top: var(--sp-2);
+  display: none;
+}
+.order-summary.visible { display: block; }
+.order-summary-title {
+  font-family: 'Syne Mono', monospace;
+  font-size: var(--text-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ember-light);
+  margin-bottom: var(--sp-4);
+}
+.order-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  color: var(--fog);
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border-dim);
+}
+.order-line:last-child { border-bottom: none; }
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--chalk);
+  padding-top: var(--sp-4);
+  margin-top: var(--sp-2);
+  border-top: 1px solid var(--border-bright);
+}
+
+/* Quantity stepper */
+.qty-row { display: flex; align-items: center; gap: var(--sp-3); }
+.qty-label { font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase; color: var(--smoke); flex: 1; }
+.qty-stepper { display: flex; align-items: center; gap: var(--sp-2); }
+.qty-btn {
+  width: 28px; height: 28px;
+  background: var(--slate);
+  border: 1px solid var(--border-mid);
+  color: var(--chalk);
+  font-size: 16px;
+  line-height: 1;
+  cursor: none;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+.qty-btn:hover { background: var(--iron); border-color: var(--ember); }
+.qty-val {
+  font-family: 'Syne Mono', monospace;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--chalk);
+  min-width: 28px;
+  text-align: center;
+}
+
+/* Shared success / error feedback */
+.form-feedback {
+  display: none;
+  padding: var(--sp-6) var(--sp-8);
+  margin-top: var(--sp-4);
+  border-left: 3px solid var(--ember);
+  background: rgba(232,96,26,0.06);
+}
+.form-feedback.visible { display: block; }
+.form-feedback.error { border-color: #c44912; background: rgba(196,73,18,0.08); }
+.form-feedback-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ember-light);
+  margin-bottom: var(--sp-2);
+}
+.form-feedback.error .form-feedback-title { color: #f5832b; }
+.form-feedback-body {
+  font-size: var(--text-sm);
+  color: var(--fog);
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .shop-grid { grid-template-columns: 1fr; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+}
 </style>
 </head>
 <body>
@@ -1347,6 +1508,7 @@ footer {
     <li><a href="#services">Services</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#testimonials">Work</a></li>
+    <li><a href="#shop">Shop</a></li>
   </ul>
 
   <div class="nav-right">
@@ -1367,6 +1529,7 @@ footer {
   <a href="#services" onclick="document.getElementById('mobMenu').classList.remove('open')">Services</a>
   <a href="#process" onclick="document.getElementById('mobMenu').classList.remove('open')">Process</a>
   <a href="#testimonials" onclick="document.getElementById('mobMenu').classList.remove('open')">Work</a>
+  <a href="#shop" onclick="document.getElementById('mobMenu').classList.remove('open')">Shop</a>
   <a href="#contact" onclick="document.getElementById('mobMenu').classList.remove('open')">Contact</a>
 </div>
 
@@ -1890,6 +2053,133 @@ footer {
 </section>
 
 <!-- ═══ CONTACT ═══ -->
+<!-- ═══ SHOP / ORDER FORM ═══ -->
+<section id="shop" class="section section-alt2">
+  <div class="label">Branded Merchandise</div>
+  <h2 class="display-title reveal">Order <em>PROEM</em> Gear</h2>
+  <p style="font-size:var(--text-base);color:var(--fog);line-height:1.8;max-width:540px;margin-top:var(--sp-6);" class="reveal reveal-d1">Premium branded merchandise for partners, clients, and the PROEM team. Select your items, specify quantity, and we'll confirm your order within 24 hours.</p>
+
+  <div class="shop-grid">
+    <!-- Products -->
+    <div class="reveal reveal-d2">
+      <p style="font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--iron);margin-bottom:var(--sp-4);">Select items — click to add</p>
+      <div class="products-grid" id="productsGrid">
+        <div class="product-card" data-product="Cap" data-price="2500" onclick="toggleProduct(this)">
+          <div class="product-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ember)" stroke-width="1.5"><path d="M4 14c0 0 1-6 8-6s8 6 8 6"/><path d="M2 14h20v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2z"/></svg>
+          </div>
+          <div class="product-name">Branded Cap</div>
+          <div class="product-price">2,500 <span>KES</span></div>
+        </div>
+        <div class="product-card" data-product="T-Shirt" data-price="3500" onclick="toggleProduct(this)">
+          <div class="product-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ember)" stroke-width="1.5"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+          </div>
+          <div class="product-name">T-Shirt</div>
+          <div class="product-price">3,500 <span>KES</span></div>
+        </div>
+        <div class="product-card" data-product="Polo Shirt" data-price="4500" onclick="toggleProduct(this)">
+          <div class="product-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ember)" stroke-width="1.5"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/><path d="M9 2s.5 3 3 3 3-3 3-3"/></svg>
+          </div>
+          <div class="product-name">Polo Shirt</div>
+          <div class="product-price">4,500 <span>KES</span></div>
+        </div>
+        <div class="product-card" data-product="Tote Bag" data-price="1800" onclick="toggleProduct(this)">
+          <div class="product-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ember)" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </div>
+          <div class="product-name">Tote Bag</div>
+          <div class="product-price">1,800 <span>KES</span></div>
+        </div>
+        <div class="product-card" data-product="Notebook" data-price="1200" onclick="toggleProduct(this)">
+          <div class="product-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ember)" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          </div>
+          <div class="product-name">Notebook</div>
+          <div class="product-price">1,200 <span>KES</span></div>
+        </div>
+        <div class="product-card" data-product="Mug" data-price="1500" onclick="toggleProduct(this)">
+          <div class="product-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ember)" stroke-width="1.5"><path d="M17 8h1a4 4 0 010 8h-1"/><path d="M3 8h14v9a4 4 0 01-4 4H7a4 4 0 01-4-4V8z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
+          </div>
+          <div class="product-name">Branded Mug</div>
+          <div class="product-price">1,500 <span>KES</span></div>
+        </div>
+      </div>
+
+      <!-- Order summary -->
+      <div class="order-summary" id="orderSummary">
+        <div class="order-summary-title">Your Order</div>
+        <div id="orderLines"></div>
+        <div class="order-total">
+          <span>Total</span>
+          <span id="orderTotal">KES 0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order form -->
+    <div class="order-form reveal reveal-d3">
+      <div class="fg">
+        <label class="fl">Full Name</label>
+        <input type="text" class="fi" id="orderName" placeholder="Your name">
+      </div>
+      <div class="fg">
+        <label class="fl">Email Address</label>
+        <input type="email" class="fi" id="orderEmail" placeholder="you@company.com">
+      </div>
+      <div class="fg">
+        <label class="fl">Phone Number</label>
+        <input type="tel" class="fi" id="orderPhone" placeholder="+254 7XX XXX XXX">
+      </div>
+      <div class="fg">
+        <label class="fl">Delivery Address</label>
+        <input type="text" class="fi" id="orderAddress" placeholder="Street, building, area — Nairobi">
+      </div>
+
+      <!-- Quantity stepper -->
+      <div style="background:var(--slate);padding:var(--sp-5);border:1px solid var(--border-mid);">
+        <p style="font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--iron);margin-bottom:var(--sp-4);">Quantity per item</p>
+        <div class="qty-row">
+          <div class="qty-label">Units</div>
+          <div class="qty-stepper">
+            <button class="qty-btn" onclick="adjustQty(-1)">−</button>
+            <div class="qty-val" id="qtyDisplay">1</div>
+            <button class="qty-btn" onclick="adjustQty(1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment method -->
+      <div class="fg">
+        <label class="fl">Preferred Payment</label>
+        <select class="fsel fi" id="orderPayment">
+          <option value="" style="background:#1C1A17">Select method...</option>
+          <option style="background:#1C1A17">M-Pesa</option>
+          <option style="background:#1C1A17">Bank Transfer</option>
+          <option style="background:#1C1A17">Cash on Delivery</option>
+          <option style="background:#1C1A17">Invoice (Company)</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label class="fl">Additional Notes</label>
+        <textarea class="fta fi" id="orderNotes" placeholder="Logo placement, size preferences, special instructions..."></textarea>
+      </div>
+
+      <button class="btn-submit" id="orderSubmitBtn" onclick="submitOrder()">
+        Place Order
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <div class="form-feedback" id="orderFeedback">
+        <div class="form-feedback-title" id="orderFeedbackTitle"></div>
+        <div class="form-feedback-body" id="orderFeedbackBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="contact">
   <div class="label reveal">Get in Touch</div>
   <h2 class="display-title reveal" style="margin-bottom:0;">Let's build<br>your next<br><em>event.</em></h2>
@@ -1964,10 +2254,14 @@ footer {
         </div>
       </div>
       <div class="fg"><label class="fl">Tell us about your event</label><textarea class="fta fi" placeholder="Describe your vision, goals, expected attendees, date, and what success looks like..."></textarea></div>
-      <button class="btn-submit">
+      <button class="btn-submit" id="contactSubmitBtn" onclick="submitContact()">
         Send Enquiry
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
+      <div class="form-feedback" id="contactFeedback">
+        <div class="form-feedback-title" id="contactFeedbackTitle"></div>
+        <div class="form-feedback-body" id="contactFeedbackBody"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -2286,6 +2580,221 @@ document.querySelectorAll('.logo-concept-panel[data-logo]').forEach(panel => {
 
 // ── Set default: Direction 02 on load ─────────────────────────────────────
 applyLogo('02');
+
+// ══════════════════════════════════════════════
+// GOOGLE APPS SCRIPT ENDPOINT
+// ══════════════════════════════════════════════
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwjFgq6E15_B_Fqy-eu8IWHBFjyQZcx29pPoYaeSo4NvE1t5agvh3mrCEg9TxvNlJ4lRw/exec';
+
+// ══════════════════════════════════════════════
+// CONTACT FORM SUBMISSION
+// ══════════════════════════════════════════════
+function submitContact() {
+  const btn = document.getElementById('contactSubmitBtn');
+  const feedback = document.getElementById('contactFeedback');
+  const feedbackTitle = document.getElementById('contactFeedbackTitle');
+  const feedbackBody = document.getElementById('contactFeedbackBody');
+
+  // Gather field values
+  const form = btn.closest('.contact-form');
+  const inputs = form.querySelectorAll('input, select, textarea');
+  const firstName  = inputs[0].value.trim();
+  const lastName   = inputs[1].value.trim();
+  const email      = inputs[2].value.trim();
+  const org        = inputs[3].value.trim();
+  const eventType  = inputs[4].value;
+  const budget     = inputs[5].value;
+  const message    = inputs[6].value.trim();
+
+  // Basic validation
+  if (!firstName || !email || !message) {
+    feedback.className = 'form-feedback error visible';
+    feedbackTitle.textContent = 'Missing fields';
+    feedbackBody.textContent = 'Please fill in at least your first name, email address, and a message before submitting.';
+    return;
+  }
+
+  // Loading state
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  btn.querySelector('span') ? btn.querySelector('span').textContent = 'Sending…' : btn.childNodes[0].textContent = 'Sending…';
+
+  const data = {
+    formType:  'Contact Enquiry',
+    timestamp: new Date().toISOString(),
+    firstName,
+    lastName,
+    email,
+    organisation: org,
+    eventType,
+    budget,
+    message
+  };
+
+  fetch(SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .catch(() => {})
+  .finally(() => {
+    // Reset button
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.querySelector('span') ? btn.querySelector('span').textContent = 'Send Enquiry' : btn.childNodes[0].textContent = 'Send Enquiry';
+
+    // Show success
+    feedback.className = 'form-feedback visible';
+    feedbackTitle.textContent = '✓ Enquiry received';
+    feedbackBody.innerHTML = `Thank you, <strong>${firstName}</strong>. We've logged your enquiry and a member of the PROEM team will be in touch within 24 hours at <strong>${email}</strong>.`;
+
+    // Clear fields
+    inputs.forEach(el => el.value = '');
+  });
+}
+
+// ══════════════════════════════════════════════
+// SHOP — PRODUCT SELECTION & ORDER FORM
+// ══════════════════════════════════════════════
+let selectedProducts = {}; // { productName: { price, qty } }
+let orderQty = 1;
+
+function adjustQty(delta) {
+  orderQty = Math.max(1, orderQty + delta);
+  document.getElementById('qtyDisplay').textContent = orderQty;
+  refreshOrderSummary();
+}
+
+function toggleProduct(card) {
+  const name  = card.dataset.product;
+  const price = parseInt(card.dataset.price);
+
+  if (selectedProducts[name]) {
+    delete selectedProducts[name];
+    card.classList.remove('selected');
+  } else {
+    selectedProducts[name] = { price };
+    card.classList.add('selected');
+  }
+  refreshOrderSummary();
+}
+
+function refreshOrderSummary() {
+  const summary   = document.getElementById('orderSummary');
+  const linesEl   = document.getElementById('orderLines');
+  const totalEl   = document.getElementById('orderTotal');
+  const keys      = Object.keys(selectedProducts);
+
+  if (keys.length === 0) {
+    summary.classList.remove('visible');
+    return;
+  }
+
+  summary.classList.add('visible');
+  let total = 0;
+  linesEl.innerHTML = keys.map(name => {
+    const lineTotal = selectedProducts[name].price * orderQty;
+    total += lineTotal;
+    return `<div class="order-line">
+      <span>${name} × ${orderQty}</span>
+      <span>KES ${lineTotal.toLocaleString()}</span>
+    </div>`;
+  }).join('');
+  totalEl.textContent = 'KES ' + total.toLocaleString();
+}
+
+function submitOrder() {
+  const btn           = document.getElementById('orderSubmitBtn');
+  const feedback      = document.getElementById('orderFeedback');
+  const feedbackTitle = document.getElementById('orderFeedbackTitle');
+  const feedbackBody  = document.getElementById('orderFeedbackBody');
+
+  const name    = document.getElementById('orderName').value.trim();
+  const email   = document.getElementById('orderEmail').value.trim();
+  const phone   = document.getElementById('orderPhone').value.trim();
+  const address = document.getElementById('orderAddress').value.trim();
+  const payment = document.getElementById('orderPayment').value;
+  const notes   = document.getElementById('orderNotes').value.trim();
+  const keys    = Object.keys(selectedProducts);
+
+  // Validation
+  if (!name || !email || !phone || keys.length === 0) {
+    feedback.className = 'form-feedback error visible';
+    feedbackTitle.textContent = 'Incomplete order';
+    feedbackBody.textContent = 'Please select at least one product and fill in your name, email, and phone number.';
+    return;
+  }
+
+  // Build line items & total
+  let orderTotal = 0;
+  const lines = keys.map(n => {
+    const lineTotal = selectedProducts[n].price * orderQty;
+    orderTotal += lineTotal;
+    return `${n} × ${orderQty} = KES ${lineTotal.toLocaleString()}`;
+  });
+
+  // Loading state
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  btn.childNodes[0].textContent = 'Placing order…';
+
+  const orderNum = 'ORD-' + Date.now().toString(36).toUpperCase();
+
+  const data = {
+    formType:   'Merchandise Order',
+    timestamp:  new Date().toISOString(),
+    orderNumber: orderNum,
+    name,
+    email,
+    phone,
+    address,
+    paymentMethod: payment,
+    items:      lines.join(' | '),
+    quantity:   orderQty,
+    total:      'KES ' + orderTotal.toLocaleString(),
+    notes
+  };
+
+  fetch(SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .catch(() => {})
+  .finally(() => {
+    // Reset button
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.childNodes[0].textContent = 'Place Order';
+
+    // Show success
+    feedback.className = 'form-feedback visible';
+    feedbackTitle.textContent = `✓ Order ${orderNum} confirmed`;
+    feedbackBody.innerHTML = `
+      Thank you, <strong>${name}</strong>! Your order has been received.<br><br>
+      <strong>Items:</strong> ${lines.join(', ')}<br>
+      <strong>Total:</strong> KES ${orderTotal.toLocaleString()}<br>
+      <strong>Payment:</strong> ${payment || 'TBD'}<br><br>
+      We'll contact you at <strong>${email}</strong> or <strong>${phone}</strong> within 24 hours to confirm delivery details.
+    `;
+
+    // Clear form
+    document.getElementById('orderName').value = '';
+    document.getElementById('orderEmail').value = '';
+    document.getElementById('orderPhone').value = '';
+    document.getElementById('orderAddress').value = '';
+    document.getElementById('orderPayment').value = '';
+    document.getElementById('orderNotes').value = '';
+    // Deselect all product cards
+    document.querySelectorAll('.product-card.selected').forEach(c => c.classList.remove('selected'));
+    selectedProducts = {};
+    orderQty = 1;
+    document.getElementById('qtyDisplay').textContent = '1';
+    document.getElementById('orderSummary').classList.remove('visible');
+  });
+}
 
 </script>
 </body>
